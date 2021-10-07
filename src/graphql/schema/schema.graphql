@@ -1,0 +1,32 @@
+
+scalar Date
+
+
+type Status {
+  msg: String!
+  status: Int!
+}
+
+type Blog {
+  _id: ID!
+  abstract: String!
+  content: String!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+input BlogInfo {
+  abstract: String!
+  content: String!
+}
+
+type Query {
+  hello: String!
+  getBlogs: [Blog!]!
+  getSingleBlog(_id: ID!): Blog!
+}
+
+type Mutation {
+  createBlog(data: BlogInfo!): Status!
+  editBlog(_id: ID!, data: BlogInfo!): Status!
+}
