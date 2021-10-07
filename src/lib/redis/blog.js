@@ -4,7 +4,7 @@ import Blog from 'models/blog'
 
 import { isArrayEmpty } from 'lib/utils/array'
 
-const writeNewBlogOnRedis = blog => {
+const writeSingleBlogOnRedis = blog => {
   // will add the new blog to redis
   redisClient.hset('blogs', blog._id, JSON.stringify(blog), (err, value) => {})
 }
@@ -18,7 +18,7 @@ const getBlogsFromRedis = async () => {
 
   if (isArrayEmpty(theseBlogs)) return []
 
-  theseBlogs.forEach(blog => writeNewBlogOnRedis(blog))
+  theseBlogs.forEach(blog => writeSingleBlogOnRedis(blog))
 
   return theseBlogs
 
@@ -33,15 +33,14 @@ const getSingleBlogFromRedis = async _id => {
 
   if (!thisBlog) throw new Error('bad request')
 
-  writeNewBlogOnRedis(thisBlog)
+  writeSingleBlogOnRedis(thisBlog)
 
   return thisBlog
   
 }
 
 export default {
-  writeNewBlogOnRedis,
+  writeSingleBlogOnRedis,
   getBlogsFromRedis,
   getSingleBlogFromRedis
 }
-

@@ -21,7 +21,6 @@ input BlogInfo {
 }
 
 type Query {
-  hello: String!
   getBlogs: [Blog!]!
   getSingleBlog(_id: ID!): Blog!
 }

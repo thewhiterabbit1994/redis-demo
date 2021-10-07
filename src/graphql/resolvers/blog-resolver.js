@@ -5,14 +5,8 @@ import redisBlog from 'lib/redis/blog'
 
 export default {
   Query: {
-    getBlogs: async () => {
-      return redisBlog.getBlogsFromRedis()
-    },
-    getSingleBlog: async (_, { _id }) => {
-      
-      return redisBlog.getSingleBlogFromRedis(_id)
-
-    },
+    getBlogs: async () => redisBlog.getBlogsFromRedis(),
+    getSingleBlog: async (_, { _id }) => redisBlog.getSingleBlogFromRedis(_id),
   },
   Mutation: {
     createBlog: async (_, { data }) => {
@@ -20,7 +14,7 @@ export default {
       try {
         const thisBlog = await Blog.create(data)
 
-        redisBlog.writeNewBlogOnRedis(thisBlog)
+        redisBlog.writeSingleBlogOnRedis(thisBlog)
   
         return {
           msg: 'successfully created this blog',
@@ -41,7 +35,7 @@ export default {
 
         thisBlog = await Blog.findByIdAndUpdate(_id, data, { new: true })
         
-        redisBlog.writeNewBlogOnRedis(thisBlog)
+        redisBlog.writeSingleBlogOnRedis(thisBlog)
 
         return {
           msg: 'successfully edited this blog',
